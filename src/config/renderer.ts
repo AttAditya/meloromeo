@@ -4,6 +4,6 @@ export const RENDERER_CONFIG = {
   backgroundColor: COLORS.BACKGROUND.SKY,
   antialias: false,
   resolution: 1,
-  roundPixels: true,
+  roundPixels: false,
 };
 

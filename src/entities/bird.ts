@@ -1,14 +1,24 @@
+import { Container, Graphics, Ticker } from "pixi.js";
+import { INSTANCES } from "@instances";
+
 import { BIRD_CONFIG } from "@config/bird";
 import { LAYER_CONFIG } from "@config/layer";
 import { WINDOW_CONFIG } from "@config/window";
-import { Container, Graphics, Ticker } from "pixi.js";
 
 export function bird() {
   const birds: {
+    label: string,
     pos: { x: number, y: number },
     dX: number,
     graphic: Graphics,
   }[] = [];
+
+  function globalPostion(x: number, y: number) {
+    return {
+      x,
+      y,
+    }
+  }
 
   function bird() {
     const shape = {
@@ -32,9 +42,21 @@ export function bird() {
       const dX = 0.06;
 
       const graphic = bird();
+      const birdLabel = `bird_${i}`;
+
       container.addChild(graphic);
+      INSTANCES.logics.positions.static.updateObjectPosition(
+        birdLabel,
+        {
+          lEdge: posX - 10,
+          rEdge: posX + 10,
+          tEdge: posY - 10,
+          bEdge: posY + 10,
+        },
+      )
 
       birds.push({
+        label: birdLabel,
         pos: { x: posX, y: posY }, dX,
         graphic,
       });
@@ -51,6 +73,17 @@ export function bird() {
 
       bird.pos.x += bird.dX * ticker.deltaMS;
       bird.graphic.position.set(bird.pos.x, bird.pos.y);
+
+      const { x, y } = globalPostion(bird.pos.x, bird.pos.y);
+      INSTANCES.logics.positions.static.updateObjectPosition(
+        bird.label,
+        {
+          lEdge: x - 10,
+          rEdge: x + 10,
+          tEdge: y - 10,
+          bEdge: y + 10,
+        },
+      )
     });
   }
 

@@ -93,6 +93,13 @@ export function projectile() {
     stone,
   };
 
+  function globalPostion(x: number, y: number) {
+    return {
+      x: x + romeoOffsetX + romeoWidth,
+      y: -y + height - groundHeight - romeoOffsetY - romeoHeight * 0.75,
+    }
+  }
+
   function container() {
     const container = new Container();
     container.label = "projectile";
@@ -105,6 +112,17 @@ export function projectile() {
     container.position.set(
       romeoOffsetX + romeoWidth,
       height - groundHeight - romeoOffsetY - romeoHeight * 0.75,
+    );
+
+    const { x, y } = globalPostion(0, 0);
+    INSTANCES.logics.positions.static.updateObjectPosition(
+      "projectile",
+      {
+        lEdge: x - 10,
+        rEdge: x + 10,
+        tEdge: y - 10,
+        bEdge: y + 10,
+      }
     );
 
     window.addEventListener("keyup", (e) => {
@@ -120,7 +138,17 @@ export function projectile() {
     if (!thrownData) return;
 
     const { start, angle, power, time, timing } = thrownData;
-    const { trajectoryCurry } = INSTANCES.logics.trajectoryPath.static;
+    const {
+      trajectoryPath: {
+        static: { trajectoryCurry },
+      },
+      positions: {
+        static: {
+          updateObjectPosition,
+          checkCollision,
+        },
+      },
+    } = INSTANCES.logics;
 
     const throwFn = trajectoryCurry(
       power, angle
@@ -135,15 +163,37 @@ export function projectile() {
       interpolatedY
     );
 
-    if (interpolatedY < 0) {
-      thrownData = null;
-      projectileObject?.position.set(0, 0);
-      return;
-    }
+    const { x, y } = globalPostion(interpolatedX, interpolatedY);
+    updateObjectPosition(
+      "projectile",
+      {
+        lEdge: x - 10,
+        rEdge: x + 10,
+        tEdge: y - 10,
+        bEdge: y + 10,
+      }
+    );
 
-    if (t > 1) {
+    const resetFactor = [
+      checkCollision("projectile"),
+      interpolatedY < 0,
+      t > 1,
+    ];
+
+    if (resetFactor.some(factor => factor)) {
       thrownData = null;
       projectileObject?.position.set(0, 0);
+      const { x, y } = globalPostion(0, 0);
+      updateObjectPosition(
+        "projectile",
+        {
+          lEdge: x - 10,
+          rEdge: x + 10,
+          tEdge: y - 10,
+          bEdge: y + 10,
+        }
+      );
+      return;
     }
 
     return;

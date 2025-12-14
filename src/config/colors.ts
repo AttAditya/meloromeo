@@ -4,7 +4,7 @@ export const COLORS = {
     DIRT: 0xA15F3B,
   },
   BACKGROUND: {
-    SKY: 0x82C8EF,
+    SKY: 0x070B34,
   },
   ROMEO: {
     SKIN: 0xFFC0CB,

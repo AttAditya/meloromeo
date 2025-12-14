@@ -1,12 +1,11 @@
 import { Container, Graphics, Ticker } from "pixi.js";
+import { INSTANCES } from "@instances";
 
 import { WINDOW_CONFIG } from "@config/window";
 import { GAME_CONFIG } from "@config/game";
 import { ROMEO_CONFIG } from "@config/romeo";
 import { TRAJECTORY_CONFIG } from "@config/trajectory";
 import { COLORS } from "@config/colors";
-
-import { INSTANCES } from "@instances";
 import { LAYER_CONFIG } from "@config/layer";
 
 export function trajectory() {
