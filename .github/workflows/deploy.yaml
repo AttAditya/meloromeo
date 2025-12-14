@@ -1,4 +1,6 @@
 name: Deployment
+permissions:
+  contents: write
 on:
   push:
     branches:
@@ -12,13 +14,25 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
       - name: Install dependencies
         run: npm install
       - name: Build project
         run: npm run build
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+      - name: Prepare folders
+        run: |
+          mkdir all
+          mv * ./all/ &
+          mv all/dist ./
+          rm -rf all .github .gitignore
+          mv dist/* ./
+          rmdir dist
+          ls -la
+      - name: Push dist to dist branch
+        run: |
+          git config --global user.name 'Meloromeo Bot'
+          git config --global user.email 'meloromeo@bot.github.com'
+          git checkout -B dist
+          git add . -f
+          git commit -m "Deploying to dist branch"
+          git push origin dist --force
