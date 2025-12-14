@@ -9,8 +9,13 @@ export function ground() {
     const { width, height } = WINDOW_CONFIG;
     const { groundHeight } = GAME_CONFIG;
 
+    const grassX = -width;
+    const grassY = height - groundHeight;
+    const grassW = width * 3;
+    const grassH = 10;
+
     const grass = new Graphics().rect(
-      0, height - groundHeight, width, 10
+      grassX, grassY, grassW, grassH
     );
     grass.fill({ color: COLORS.GROUND.GRASS });
 
@@ -21,8 +26,13 @@ export function ground() {
     const { width, height } = WINDOW_CONFIG;
     const { groundHeight } = GAME_CONFIG;
 
+    const soilX = -width;
+    const soilY = height - groundHeight + 10;
+    const soilW = width * 3;
+    const soilH = groundHeight * 3;
+
     const soil = new Graphics().rect(
-      0, height - groundHeight + 10, width, groundHeight - 10
+      soilX, soilY, soilW, soilH
     );
     soil.fill({ color: COLORS.GROUND.DIRT });
 
