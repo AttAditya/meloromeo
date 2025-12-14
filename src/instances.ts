@@ -13,6 +13,7 @@ import { bird } from "@entities/bird";
 import { projectile } from "@entities/projectile";
 import { juliet } from "@entities/juliet";
 import { balconies } from "@entities/balconies";
+import { world } from "@entities/world";
 
 export const INSTANCES = {
   logics: {
@@ -30,17 +31,18 @@ export const INSTANCES = {
     trajectory: trajectory(),
     projectile: projectile(),
     juliet: juliet(),
+    world: world(),
   },
 };
 
-interface LogicInstance {
+export interface LogicInstances {
   [key: string]: {
     static?: { [key: string]: (...args: any[]) => any };
     update?: (ticker: Ticker) => void;
   };
 }
 
-interface EntityInstance {
+export interface EntityInstances {
   [key: string]: {
     container: () => Container;
     update?: (ticker: Ticker) => void;
@@ -48,7 +50,7 @@ interface EntityInstance {
 }
 
 export interface GenericInstances {
-  logics: LogicInstance,
-  entities: EntityInstance,
+  logics: LogicInstances,
+  entities: EntityInstances,
 }
 

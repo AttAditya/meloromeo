@@ -1,9 +1,8 @@
 import { Application } from "pixi.js";
+import { INSTANCES, type LogicInstances } from "@instances";
 
 import { WINDOW_CONFIG } from "@config/window";
 import { RENDERER_CONFIG } from "@config/renderer";
-
-import { INSTANCES, type GenericInstances } from "@instances";
 
 async function setup(): Promise<Application> {
   const app = new Application();
@@ -18,19 +17,11 @@ async function setup(): Promise<Application> {
 
 async function main() {
   const app = await setup();
-  const stage = app.stage;
-  const {
-    logics,
-    entities
-  } = INSTANCES as GenericInstances;
+  const logics = INSTANCES.logics as LogicInstances;
+  const world = INSTANCES.entities.world;
 
-  stage.sortableChildren = true;
-
-  Object.values(entities).forEach(entity => {
-    stage.addChild(entity.container());
-    if (entity.update)
-      app.ticker.add(entity.update);
-  });
+  app.stage.addChild(world.container());
+  app.ticker.add(world.update);
 
   Object.values(logics).forEach(logic => {
     if (logic.update)

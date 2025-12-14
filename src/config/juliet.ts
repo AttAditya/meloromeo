@@ -7,6 +7,6 @@ export const JULIET_CONFIG = {
     x: 50,
     y: 30,
   },
-  floor: 2,
+  floor: 1,
 };
 
