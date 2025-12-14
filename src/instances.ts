@@ -3,6 +3,7 @@ import type { Container, Ticker } from "pixi.js";
 import { angle } from "@logic/angle";
 import { trajectoryPath } from "@logic/trajectoryPath";
 import { positions } from "@logic/positions";
+import { level } from "@logic/level";
 
 import { building } from "@entities/building";
 import { ground } from "@entities/ground";
@@ -18,6 +19,7 @@ export const INSTANCES = {
     angle: angle(),
     trajectoryPath: trajectoryPath(),
     positions: positions(),
+    level: level(),
   },
   entities: {
     bird: bird(),

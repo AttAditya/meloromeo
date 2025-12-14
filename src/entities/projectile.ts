@@ -148,6 +148,9 @@ export function projectile() {
           checkCollision,
         },
       },
+      level: {
+        static: { triggerLevelUp },
+      }
     } = INSTANCES.logics;
 
     const throwFn = trajectoryCurry(
@@ -155,7 +158,7 @@ export function projectile() {
     )
 
     const t = (Date.now() - start) / time;
-    const interpolatedX = timing(t) * 0.7 * width;
+    const interpolatedX = timing(t) * 1 * width;
     const interpolatedY = throwFn(interpolatedX);
     
     projectileObject?.position.set(
@@ -163,7 +166,11 @@ export function projectile() {
       interpolatedY
     );
 
-    const { x, y } = globalPostion(interpolatedX, interpolatedY);
+    const { x, y } = globalPostion(
+      interpolatedX,
+      interpolatedY,
+    );
+
     updateObjectPosition(
       "projectile",
       {
@@ -174,8 +181,12 @@ export function projectile() {
       }
     );
 
+    const collidedObjectId = checkCollision("projectile");
+    if (collidedObjectId === "juliet")
+      triggerLevelUp();
+
     const resetFactor = [
-      checkCollision("projectile"),
+      !!collidedObjectId,
       interpolatedY < 0,
       t > 1,
     ];

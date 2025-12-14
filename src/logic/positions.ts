@@ -92,12 +92,12 @@ export function positions() {
           objectId,
         );
         
-        if (collided) return true;
+        if (collided) return objectId;
         checkedObjects[objectId] = true;
       }
     }
 
-    return false;
+    return null;
   }
 
   return {
