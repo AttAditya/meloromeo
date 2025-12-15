@@ -1,23 +1,33 @@
+import type { Ticker } from "pixi.js";
 import { INSTANCES } from "@instances";
 
 export function angle() {
   const upperLimit: number = 89;
   const lowerLimit: number = 0.1;
+  const deltaAngle: number = 0.01;
+  
+  let currentAngle: number = 45;
   
   function getAngle(): number {
-    const note = INSTANCES.inputs.microphone.static.getNote();
-    const angle = Math.log10(note?.freq || 0) / 3.5 * upperLimit;
-
     return Math.max(
       lowerLimit,
       Math.min(
         upperLimit,
-        angle
+        currentAngle
       )
     );
   }
 
+  function update(ticker: Ticker) {
+    const volume = INSTANCES.inputs.microphone.static.getVolume();
+    const angle = volume * 400;
+    
+    const sign = (angle >= getAngle()) ? 1 : -1;
+    currentAngle += deltaAngle * ticker.deltaMS * sign;
+  }
+
   return {
+    update,
     static: {
       getAngle,
     },

@@ -23,7 +23,15 @@ export function microphone() {
   const notesQueueCapacity = 25;
 
   async function init() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mediaDevices = navigator.mediaDevices;
+    let stream = null;
+    try {
+      stream = await mediaDevices.getUserMedia({ audio: true });
+    } catch (e) {
+      console.warn("Microphone access denied.");
+      return;
+    }
+
     const source = ctx.createMediaStreamSource(stream);
 
     analyser = ctx.createAnalyser();
@@ -105,6 +113,11 @@ export function microphone() {
     };
   }
 
+  function getVolume() {
+    if (!lastFreq) return 0;
+    return Math.min(1, lastFreq / maxFreq);
+  }
+
   function getNote() {
     let significantNote = null;
     let significantNoteCount = 0;
@@ -137,6 +150,7 @@ export function microphone() {
     init,
     update,
     static: {
+      getVolume,
       getNote,
     },
   };
