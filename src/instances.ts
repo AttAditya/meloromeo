@@ -1,5 +1,7 @@
 import type { Container, Ticker } from "pixi.js";
 
+import { microphone } from "@inputs/microphone";
+
 import { angle } from "@logic/angle";
 import { trajectoryPath } from "@logic/trajectoryPath";
 import { positions } from "@logic/positions";
@@ -16,6 +18,9 @@ import { balconies } from "@entities/balconies";
 import { world } from "@entities/world";
 
 export const INSTANCES = {
+  inputs: {
+    microphone: microphone(),
+  },
   logics: {
     angle: angle(),
     trajectoryPath: trajectoryPath(),
@@ -35,6 +40,14 @@ export const INSTANCES = {
   },
 };
 
+export interface InputInstances {
+  [key: string]: {
+    static?: { [key: string]: (...args: any[]) => any };
+    update?: (ticker: Ticker) => void;
+    init?: () => Promise<void>;
+  };
+}
+
 export interface LogicInstances {
   [key: string]: {
     static?: { [key: string]: (...args: any[]) => any };
@@ -50,6 +63,7 @@ export interface EntityInstances {
 }
 
 export interface GenericInstances {
+  inputs: InputInstances,
   logics: LogicInstances,
   entities: EntityInstances,
 }
