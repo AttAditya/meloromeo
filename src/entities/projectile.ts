@@ -88,7 +88,9 @@ export function projectile() {
     return graphics;
   }
 
-  const projectiles = {
+  const projectiles: {
+    [key: string]: () => Graphics;
+  } = {
     flower,
     stone,
   };
@@ -125,10 +127,12 @@ export function projectile() {
       }
     );
 
-    window.addEventListener("keyup", (e) => {
-      if (e.code !== "Space") return;
-      if (!thrownData)
+    const { registerThrow } = INSTANCES.logics.throwProjectile.static;
+    Object.keys(projectiles).forEach(id => {
+      registerThrow(id, () => {
+        if (thrownData) return;
         throwProjectile();
+      });
     });
 
     return container;

@@ -11,6 +11,7 @@ export default defineConfig({
       "@entities": "/src/entities",
       "@logic": "/src/logic",
       "@inputs": "/src/inputs",
+      "@ui": "/src/ui",
     },
   },
 });

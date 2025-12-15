@@ -17,6 +17,9 @@ import { juliet } from "@entities/juliet";
 import { balconies } from "@entities/balconies";
 import { world } from "@entities/world";
 
+import { game } from "@ui/game";
+import { throwProjectile } from "@logic/throwProjectile";
+
 export const INSTANCES = {
   inputs: {
     microphone: microphone(),
@@ -26,6 +29,7 @@ export const INSTANCES = {
     trajectoryPath: trajectoryPath(),
     positions: positions(),
     level: level(),
+    throwProjectile: throwProjectile(),
   },
   entities: {
     bird: bird(),
@@ -37,6 +41,9 @@ export const INSTANCES = {
     projectile: projectile(),
     juliet: juliet(),
     world: world(),
+  },
+  ui: {
+    game: game(),
   },
 };
 
@@ -62,9 +69,17 @@ export interface EntityInstances {
   };
 }
 
+export interface UIInstances {
+  [key: string]: {
+    container: () => Container;
+    update?: (ticker: Ticker) => void;
+  };
+}
+
 export interface GenericInstances {
   inputs: InputInstances,
   logics: LogicInstances,
   entities: EntityInstances,
+  ui: UIInstances,
 }
 

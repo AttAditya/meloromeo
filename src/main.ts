@@ -17,7 +17,7 @@ async function setup(): Promise<Application> {
 
 async function main() {
   const app = await setup();
-  const { inputs, logics } = INSTANCES as GenericInstances;
+  const { inputs, logics, ui } = INSTANCES as GenericInstances;
 
   const inputList = Object.values(inputs);
   const logicList = Object.values(logics);
@@ -38,6 +38,8 @@ async function main() {
   const world = INSTANCES.entities.world;
   app.stage.addChild(world.container());
   app.ticker.add(world.update);
+
+  app.stage.addChild(ui.game.container());
 }
 
 main();

@@ -1,5 +1,5 @@
 export const BIRD_CONFIG = {
-  count: 1,
+  count: 5,
   shape: {
     width: 30,
     height: 30,
