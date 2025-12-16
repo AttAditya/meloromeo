@@ -1,10 +1,10 @@
 export const COLORS = {
   GROUND: {
-    GRASS: 0x3CB043,
-    DIRT: 0xA15F3B,
+    GRASS: 0x555555,
+    DIRT: 0x999999,
   },
   BACKGROUND: {
-    SKY: 0x070B34,
+    SKY: 0xBBBBBB,
   },
   ROMEO: {
     SKIN: 0xFFC0CB,
@@ -21,7 +21,7 @@ export const COLORS = {
     STONE: 0x808080,
   },
   BUILDING: {
-    STONE: 0x475359,
+    STONE: 0xAAA9AD,
     BALCONY: 0x344046,
   },
 }

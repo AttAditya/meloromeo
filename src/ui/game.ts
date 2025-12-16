@@ -13,20 +13,24 @@ export function game() {
     container.label = "game-ui";
 
     const stoneIcon = new Graphics();
-    stoneIcon.circle(0, 0, 20);
-    stoneIcon.fill(0x444444);
-    stoneIcon.stroke({ color: 0xffffff, width: 2 });
+    stoneIcon.circle(0, 0, 30);
     stoneIcon.pivot.set(0, 0);
+    stoneIcon.fill({
+      texture: INSTANCES.assets.textures.getTexture("stone"),
+      textureSpace: "local",
+    });
 
     const flowerIcon = new Graphics();
-    flowerIcon.circle(0, 0, 20);
-    flowerIcon.fill(0xFDAAAA);
-    flowerIcon.stroke({ color: 0xffffff, width: 2 });
+    flowerIcon.circle(0, 0, 30);
     flowerIcon.pivot.set(0, 0);
+    flowerIcon.fill({
+      texture: INSTANCES.assets.textures.getTexture("flower"),
+      textureSpace: "local",
+    });
 
     const throwStone = button(
       stoneIcon,
-      0x999999,
+      0xDDDDDD,
       () => throwById("stone"),
       {
         position: {
@@ -43,7 +47,7 @@ export function game() {
 
     const throwFlower = button(
       flowerIcon,
-      0x59AC77,
+      0xDDDDDD,
       () => throwById("flower"),
       {
         position: {

@@ -1,11 +1,11 @@
 export const ROMEO_CONFIG = {
   shape: {
-    width: 20,
-    height: 40,
+    width: 40,
+    height: 75,
   },
   offset: {
     x: 25,
-    y: 0,
+    y: -5,
   }
 };
 

@@ -20,9 +20,7 @@ export function textures() {
 
   return {
     init,
-    static: {
-      getTexture,
-    },
+    getTexture,
   };
 }
 

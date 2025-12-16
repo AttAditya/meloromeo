@@ -1,4 +1,4 @@
-import { Container, Graphics, Ticker } from "pixi.js";
+import { ColorMatrixFilter, Container, Sprite, Ticker } from "pixi.js";
 import { INSTANCES } from "@instances";
 
 import { BIRD_CONFIG } from "@config/bird";
@@ -10,7 +10,7 @@ export function bird() {
     label: string,
     pos: { x: number, y: number },
     dX: number,
-    graphic: Graphics,
+    graphic: Sprite,
   }[] = [];
 
   function globalPostion(x: number, y: number) {
@@ -21,15 +21,19 @@ export function bird() {
   }
 
   function bird() {
-    const shape = {
-      width: 20,
-      height: 20,
-    };
+    const texture = INSTANCES.assets.textures.getTexture("birdFlap1");
 
-    const head = new Graphics().circle(0, 0, shape.width / 2);
-    head.fill({ color: 0xffff00 });
+    const bird = new Sprite(texture);
+    bird.width = 30;
+    bird.height = 30;
+    bird.anchor.set(0.5);
+    bird.position.set(0, 0);
 
-    return head;
+    const cmf = new ColorMatrixFilter();
+    cmf.brightness(1.2, false);
+    bird.filters = [cmf];
+
+    return bird;
   }
 
   function container() {
@@ -73,6 +77,13 @@ export function bird() {
 
       bird.pos.x += bird.dX * ticker.deltaMS;
       bird.graphic.position.set(bird.pos.x, bird.pos.y);
+      bird.graphic.texture = INSTANCES.assets.textures.getTexture(
+        Date.now() % 500 < 250 ? "birdFlap1" : "birdFlap2"
+      );
+
+      bird.graphic.scale.x = bird.dX > 0 ? -1 : 1;
+      bird.graphic.width = 30;
+      bird.graphic.height = 30;
 
       const { x, y } = globalPostion(bird.pos.x, bird.pos.y);
       INSTANCES.logics.positions.static.updateObjectPosition(

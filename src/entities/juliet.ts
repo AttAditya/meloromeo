@@ -2,17 +2,13 @@ import { Container, Graphics } from "pixi.js";
 import { INSTANCES } from "@instances";
 
 import { JULIET_CONFIG } from "@config/juliet";
-import { COLORS } from "@config/colors";
-import { BUILDING_CONFIG } from "@config/building";
 import { WINDOW_CONFIG } from "@config/window";
 import { GAME_CONFIG } from "@config/game";
 import { LAYER_CONFIG } from "@config/layer";
+import { BALCONY_CONFIG } from "@config/balcony";
 
 export function juliet() {
-  const position = {
-    x: 0,
-    y: 0,
-  };
+  const position = { x: 0, y: 0 };
 
   function globalPostion(x: number, y: number) {
     const { x: offX, y: offY } = JULIET_CONFIG.offset;
@@ -20,8 +16,8 @@ export function juliet() {
     const { groundHeight } = GAME_CONFIG;
 
     return {
-      x: - offX - x + winW,
-      y: - offY - y + winH - groundHeight,
+      x: offX - x + winW,
+      y: offY - y + winH - groundHeight,
     }
   }
 
@@ -30,14 +26,12 @@ export function juliet() {
   ) {
     const {
       balconyGap,
-      balcony: {
-        shape: { height: balconyHeight },
-        offset: {
-          x: balconyOffsetX,
-          y: balconyOffsetY,
-        },
+      shape: { height: balconyHeight },
+      offset: {
+        x: balconyOffsetX,
+        y: balconyOffsetY,
       },
-    } = BUILDING_CONFIG;
+    } = BALCONY_CONFIG;
     
     const levelHeight =
       balconyHeight +
@@ -64,29 +58,19 @@ export function juliet() {
       }
     )
   }
-  
-  function head() {
+
+  function juliet() {
     const { shape } = JULIET_CONFIG;
-    const head = new Graphics().circle(
-      0, 0, shape.width / 2
-    );
-    
-    head.pivot.set(-shape.width / 2, -shape.width / 2);
-    head.fill({ color: COLORS.JULIET.SKIN });
-
-    return head;
-  }
-
-  function body() {
-    const { shape } = JULIET_CONFIG;
-
     const body = new Graphics().rect(
-      0,
-      shape.width,
+      0, 0,
       shape.width,
       shape.height
     );
-    body.fill({ color: COLORS.JULIET.DRESS });
+
+    body.fill({
+      texture: INSTANCES.assets.textures.getTexture("juliet"),
+      textureSpace: "local",
+    });
     
     return body;
   }
@@ -94,9 +78,7 @@ export function juliet() {
   function container() {
     const container = new Container();
     container.label = "juliet";
-
-    container.addChild(head());
-    container.addChild(body());
+    container.addChild(juliet());
 
     reposition(JULIET_CONFIG.floor);
 
@@ -107,16 +89,16 @@ export function juliet() {
 
     container.zIndex = LAYER_CONFIG.JULIET;
     container.position.set(
-      - offX - posX + winW,
-      - offY - posY + winH - groundHeight,
+      offX - posX + winW,
+      offY - posY + winH - groundHeight,
     )
 
     INSTANCES.logics.level.static.onLevelUp(() => {
       JULIET_CONFIG.floor += 1;
       reposition(JULIET_CONFIG.floor);
       container.position.set(
-        - offX - position.x + winW,
-        - offY - position.y + winH - groundHeight,
+        offX - position.x + winW,
+        offY - position.y + winH - groundHeight,
       );
     });
 

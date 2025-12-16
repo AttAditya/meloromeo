@@ -55,9 +55,7 @@ export const INSTANCES = {
 export interface AssetInstances {
   textures: {
     init: () => Promise<void>;
-    static: {
-      getTexture: (key: string) => Texture;
-    };
+    getTexture: (key: string) => Texture;
   };
 }
 

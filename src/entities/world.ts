@@ -1,11 +1,29 @@
-import { Container, Ticker } from "pixi.js";
+import { Container, Graphics, Ticker } from "pixi.js";
 import { INSTANCES, type EntityInstances } from "@instances";
+
 import { WINDOW_CONFIG } from "@config/window";
 
 let initialized = false;
 
 export function world() {
   const updateCallbacks: ((ticker: Ticker) => void)[] = [];
+
+  function background() {
+    const background = new Graphics();
+    background.rect(
+      0, 0,
+      WINDOW_CONFIG.width,
+      WINDOW_CONFIG.height
+    );
+
+    background.fill({
+      texture: INSTANCES.assets.textures.getTexture("background"),
+      textureSpace: "local",
+    });
+    background.alpha = 0.6;
+
+    return background;
+  }
 
   function container() {
     const container = new Container();
@@ -15,6 +33,7 @@ export function world() {
     initialized = true;
 
     const entities = INSTANCES.entities as EntityInstances;
+    container.addChild(background());
 
     Object.values(entities).forEach(entity => {
       const entityContainer = entity.container();

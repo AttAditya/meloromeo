@@ -1,11 +1,11 @@
 export const JULIET_CONFIG = {
   shape: {
-    width: 20,
-    height: 40,
+    width: 30,
+    height: 60,
   },
   offset: {
-    x: 50,
-    y: 30,
+    x: -40,
+    y: -70,
   },
   floor: 1,
 };

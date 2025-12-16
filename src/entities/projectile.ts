@@ -4,7 +4,6 @@ import { INSTANCES } from "@instances";
 import { WINDOW_CONFIG } from "@config/window";
 import { GAME_CONFIG } from "@config/game";
 import { ROMEO_CONFIG } from "@config/romeo";
-import { COLORS } from "@config/colors";
 import { LAYER_CONFIG } from "@config/layer";
 
 export function projectile() {
@@ -159,15 +158,22 @@ export function projectile() {
   }
 
   function flower() {
-    const graphics = new Graphics().rect(5, -5, 15, 15);
-    graphics.fill({ color: 0xff00ff });
+    const graphics = new Graphics().rect(15, -30, 30, 30);
+    graphics.fill({
+      texture: INSTANCES.assets.textures.getTexture("flower"),
+      textureSpace: "local",
+    });
+    graphics.scale.set(1, -1);
 
     return graphics;
   }
 
   function stone() {
-    const graphics = new Graphics().circle(10, 0, 7.5);
-    graphics.fill({ color: COLORS.PROJECTILES.STONE });
+    const graphics = new Graphics().circle(10, 0, 10);
+    graphics.fill({
+      texture: INSTANCES.assets.textures.getTexture("stone"),
+      textureSpace: "local",
+    });
 
     return graphics;
   }

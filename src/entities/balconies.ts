@@ -1,10 +1,11 @@
 import { Container, Graphics } from "pixi.js";
+import { INSTANCES } from "@instances";
 
 import { WINDOW_CONFIG } from "@config/window";
 import { GAME_CONFIG } from "@config/game";
-import { BUILDING_CONFIG } from "@config/building";
-import { COLORS } from "@config/colors";
 import { LAYER_CONFIG } from "@config/layer";
+import { BALCONY_CONFIG } from "@config/balcony";
+import { BUILDING_CONFIG } from "@config/building";
 
 export function balconies() {
   function balcony(
@@ -12,35 +13,39 @@ export function balconies() {
   ) {
     const {
       balconyGap,
-      balcony: {
-        shape: { height: balconyHeight },
-        offset: {
-          x: balconyOffsetX,
-          y: balconyOffsetY,
-        },
+      shape: {
+        height,
+        width,
       },
-    } = BUILDING_CONFIG;
+      offset: {
+        x: offsetX,
+        y: offsetY,
+      },
+    } = BALCONY_CONFIG;
     
     const levelHeight =
-      balconyHeight +
-      balconyOffsetY +
+      height +
+      offsetY +
       balconyGap;
     
-    const balconyX = balconyOffsetX;
+    const balconyX = offsetX;
     const balconyY =
-      balconyOffsetY +
+      offsetY +
       balconyGap +
       (level * levelHeight);
 
     const balcony = new Graphics().rect(
       balconyX,
       balconyY,
-      BUILDING_CONFIG.balcony.shape.width,
-      BUILDING_CONFIG.balcony.shape.height
+      width,
+      height
     );
     
     balcony.zIndex = LAYER_CONFIG.BALCONY;
-    balcony.fill({ color: COLORS.BUILDING.BALCONY });
+    balcony.fill({
+      texture: INSTANCES.assets.textures.getTexture("balcony"),
+      textureSpace: "local",
+    });
     
     return balcony;
   }
@@ -50,14 +55,15 @@ export function balconies() {
     container.label = "building";
 
     const {
-      shape: { width: buildingWidth },
-      offset: { x: buildingOffsetX },
-      balcony: {
-        shape: { height: balconyHeight },
-        offset: { y: balconyOffsetY },
-      },
+      shape: { height: balconyHeight },
+      offset: { y: balconyOffsetY },
       balconyGap,
       balconyCount,
+    } = BALCONY_CONFIG;
+
+    const {
+      shape: { width: buildingWidth },
+      offset: { x: buildingOffsetX },
     } = BUILDING_CONFIG;
 
     const levelHeight = balconyHeight + balconyOffsetY + balconyGap;

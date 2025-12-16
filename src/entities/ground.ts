@@ -18,6 +18,10 @@ export function ground() {
       grassX, grassY, grassW, grassH
     );
     grass.fill({ color: COLORS.GROUND.GRASS });
+    grass.stroke({
+      color: 0x000000,
+      width: 2,
+    });
 
     return grass;
   }
@@ -43,8 +47,8 @@ export function ground() {
     const container = new Container();
     container.label = "ground";
 
-    container.addChild(grass());
     container.addChild(soil());
+    container.addChild(grass());
     
     return container;
   }

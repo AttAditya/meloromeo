@@ -40,13 +40,13 @@ export function button(
   const buttonBgDepth = new Graphics();
   buttonBgDepth.roundRect(0, 20, width, height, roundness);
   buttonBgDepth.fill(color);
-  buttonBgDepth.stroke({ color: 0xffffff, width: 2 });
+  buttonBgDepth.stroke({ color: 0x000000, width: 2 });
   buttonBgDepth.filters = [cmf];
   
   const buttonBgColor = new Graphics();
   buttonBgColor.roundRect(0, 0, width, height, roundness);
   buttonBgColor.fill(color);
-  buttonBgColor.stroke({ color: 0xffffff, width: 2 });
+  buttonBgColor.stroke({ color: 0x000000, width: 2 });
   
   buttonBg.addChild(buttonBgDepth);
   buttonBg.addChild(buttonBgColor);

@@ -3,22 +3,55 @@ import { Container, Graphics } from "pixi.js";
 import { WINDOW_CONFIG } from "@config/window";
 import { GAME_CONFIG } from "@config/game";
 import { BUILDING_CONFIG } from "@config/building";
-import { COLORS } from "@config/colors";
+import { BALCONY_CONFIG } from "@config/balcony";
+import { INSTANCES } from "@instances";
 
 export function building() {
-  function wall(buildingHeight: number) {
+  function floor(y: number) {
     const {
-      shape: { width: buildingWidth },
-    } = BUILDING_CONFIG;
+      shape: { height: balconyHeight },
+      offset: { y: balconyOffsetY },
+      balconyGap,
+    } = BALCONY_CONFIG;
 
-    const building = new Graphics().rect(
-      0, 0,
-      buildingWidth,
-      buildingHeight
+    const levelHeight = balconyHeight + balconyOffsetY + balconyGap;
+
+    const floor = new Graphics().rect(
+      0, y * levelHeight,
+      BUILDING_CONFIG.shape.width,
+      levelHeight,
     );
-    building.fill({ color: COLORS.BUILDING.STONE });
+
+    floor.fill({
+      texture: INSTANCES.assets.textures.getTexture("floor"),
+      textureSpace: "local",
+    });
+
+    return floor;
+  }
+
+  function wall() {
+    const {
+      shape: { height: balconyHeight },
+      offset: { y: balconyOffsetY },
+      balconyGap,
+      balconyCount,
+    } = BALCONY_CONFIG;
+
+    const levelHeight = balconyHeight + balconyOffsetY + balconyGap;
+    const buildingHeight = levelHeight * balconyCount + 4;
     
-    return building;
+    const wall = new Graphics();
+    wall.rect(
+      0, 0,
+      BUILDING_CONFIG.shape.width,
+      buildingHeight,
+    ).stroke({
+      color: 0x000000,
+      width: 4,
+    })
+
+    return wall;
   }
 
   function container() {
@@ -28,18 +61,22 @@ export function building() {
     const {
       shape: { width: buildingWidth },
       offset: { x: buildingOffsetX },
-      balcony: {
-        shape: { height: balconyHeight },
-        offset: { y: balconyOffsetY },
-      },
+    } = BUILDING_CONFIG;
+    
+    const {
+      shape: { height: balconyHeight },
+      offset: { y: balconyOffsetY },
       balconyGap,
       balconyCount,
-    } = BUILDING_CONFIG;
+    } = BALCONY_CONFIG;
 
     const levelHeight = balconyHeight + balconyOffsetY + balconyGap;
     const buildingHeight = levelHeight * balconyCount;
-    
-    container.addChild(wall(buildingHeight));
+
+    for (let level = 0; level < balconyCount; level++)
+      container.addChild(floor(level));
+    container.addChild(wall());
+
     container.pivot.set(
       buildingWidth + buildingOffsetX,
       buildingHeight,
