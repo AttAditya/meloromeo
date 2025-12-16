@@ -78,7 +78,7 @@ export function building() {
     container.addChild(wall());
 
     container.pivot.set(
-      buildingWidth + buildingOffsetX,
+      buildingWidth + buildingOffsetX * 2.25,
       buildingHeight,
     );
 
