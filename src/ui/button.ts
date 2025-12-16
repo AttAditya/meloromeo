@@ -61,14 +61,31 @@ export function button(
   button.scale.set(scale || 1, scale || 1);
   
   button.eventMode = "static";
-  button.onmousedown = () => {
+  let allowFunction = false;
+
+  button.onpointerdown = () => {
     buttonBgColor.position.y += 10;
     innerContent.position.y += 10;
+    allowFunction = true;
   }
 
-  button.onmouseup = () => {
+  button.onpointerout = () => {
+    if (!allowFunction)
+      return;
+
     buttonBgColor.position.y -= 10;
     innerContent.position.y -= 10;
+    allowFunction = false;
+  }
+
+  button.onpointerup = () => {
+    if (!allowFunction)
+      return;
+
+    buttonBgColor.position.y -= 10;
+    innerContent.position.y -= 10;
+
+    allowFunction = false;
     action();
   }
 
