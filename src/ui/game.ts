@@ -1,9 +1,9 @@
 import { Container, Graphics } from "pixi.js";
+import { INSTANCES } from "@instances";
 
 import { button } from "@ui/button";
 
 import { WINDOW_CONFIG } from "@config/window";
-import { INSTANCES } from "@instances";
 
 export function game() {
   function container() {

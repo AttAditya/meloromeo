@@ -17,7 +17,9 @@ async function setup(): Promise<Application> {
 
 async function main() {
   const app = await setup();
-  const { inputs, logics, ui } = INSTANCES as GenericInstances;
+  const { assets, inputs, logics, ui } = INSTANCES as GenericInstances;
+
+  await assets.textures.init();
 
   const inputList = Object.values(inputs);
   const logicList = Object.values(logics);

@@ -6,6 +6,7 @@ export default defineConfig({
   base: "./",
   resolve: {
     alias: {
+      "@assets": "/src/assets",
       "@instances": "/src/instances",
       "@config": "/src/config",
       "@entities": "/src/entities",

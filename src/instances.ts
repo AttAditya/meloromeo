@@ -1,4 +1,6 @@
-import type { Container, Ticker } from "pixi.js";
+import type { Container, Texture, Ticker } from "pixi.js";
+
+import { textures } from "@assets/textures";
 
 import { microphone } from "@inputs/microphone";
 
@@ -6,6 +8,7 @@ import { angle } from "@logic/angle";
 import { trajectoryPath } from "@logic/trajectoryPath";
 import { positions } from "@logic/positions";
 import { level } from "@logic/level";
+import { throwProjectile } from "@logic/throwProjectile";
 
 import { building } from "@entities/building";
 import { ground } from "@entities/ground";
@@ -18,9 +21,11 @@ import { balconies } from "@entities/balconies";
 import { world } from "@entities/world";
 
 import { game } from "@ui/game";
-import { throwProjectile } from "@logic/throwProjectile";
 
 export const INSTANCES = {
+  assets: {
+    textures: textures(),
+  },
   inputs: {
     microphone: microphone(),
   },
@@ -46,6 +51,15 @@ export const INSTANCES = {
     game: game(),
   },
 };
+
+export interface AssetInstances {
+  textures: {
+    init: () => Promise<void>;
+    static: {
+      getTexture: (key: string) => Texture;
+    };
+  };
+}
 
 export interface InputInstances {
   [key: string]: {
@@ -77,6 +91,7 @@ export interface UIInstances {
 }
 
 export interface GenericInstances {
+  assets: AssetInstances,
   inputs: InputInstances,
   logics: LogicInstances,
   entities: EntityInstances,
