@@ -22,16 +22,20 @@ export function projectile() {
   } = ROMEO_CONFIG;
 
   let thrownData: {
-    start: number,
-    angle: number,
-    power: number,
-    time: number,
-    timing: (current: number) => number,
-  } | null = null;
+    [projectileId: string]: {
+      start: number,
+      angle: number,
+      power: number,
+      time: number,
+      timing: (current: number) => number,
+    }
+  } = {};
 
-  let projectileObject: Graphics | null = null;
+  const projectileObjects: { [projectileId: string]: Graphics } = {};
+  let projectilesContainer: Container | null = null;
+  let projectileIdGen = 0;
 
-  function throwProjectile() {
+  function throwProjectile(rawProjectileId: string) {
     const { getAngle } = INSTANCES.logics.angle.static;
     const { trajectoryCurry } = INSTANCES.logics.trajectoryPath.static;
 
@@ -71,7 +75,87 @@ export function projectile() {
     };
 
     const time = (length / power) * 200;
-    thrownData = { start, angle, power, time, timing };
+    
+    const projectileGraphic = projectiles[rawProjectileId]();
+    let projectileId = "projectile_";
+    projectileId += projectileGraphic;
+    projectileId += projectileIdGen++;
+  
+    projectilesContainer?.addChild(projectileGraphic);
+    projectileObjects[projectileId] = projectileGraphic;
+    thrownData[projectileId] = { start, angle, power, time, timing };
+  }
+
+  function projectileUpdate(projectileId: string) {
+    const projectileObject = projectileObjects[projectileId];
+    const {
+      start, angle, power, time, timing
+    } = thrownData[projectileId];
+    const {
+      trajectoryPath: {
+        static: { trajectoryCurry },
+      },
+      positions: {
+        static: {
+          updateObjectPosition,
+          removeObject,
+          checkCollision,
+        },
+      },
+      level: {
+        static: { triggerLevelUp },
+      }
+    } = INSTANCES.logics;
+
+    const throwFn = trajectoryCurry(
+      power, angle
+    )
+
+    const t = (Date.now() - start) / time;
+    const interpolatedX = timing(t) * 1 * width;
+    const interpolatedY = throwFn(interpolatedX);
+    
+    projectileObject?.position.set(
+      interpolatedX,
+      interpolatedY
+    );
+
+    const { x, y } = globalPostion(
+      interpolatedX,
+      interpolatedY,
+    );
+
+    updateObjectPosition(
+      projectileId,
+      {
+        lEdge: x - 10,
+        rEdge: x + 10,
+        tEdge: y - 10,
+        bEdge: y + 10,
+      }
+    );
+
+    const collidedObjectId = checkCollision(projectileId);
+    if (
+      collidedObjectId === "juliet" &&
+      projectileId.includes("flower")
+    ) triggerLevelUp();
+
+    const resetFactor = [
+      !!collidedObjectId,
+      interpolatedY < 0,
+      t > 1,
+    ];
+
+    if (resetFactor.every(factor => !factor))
+      return;
+
+    projectileObject?.position.set(0, 0);
+    projectileObject.destroy();
+    removeObject(projectileId);
+
+    delete thrownData[projectileId];
+    delete projectileObjects[projectileId];
   }
 
   function flower() {
@@ -105,9 +189,7 @@ export function projectile() {
   function container() {
     const container = new Container();
     container.label = "projectile";
-
-    projectileObject = projectiles.stone();
-    container.addChild(projectileObject);
+    projectilesContainer = container;
 
     container.scale.y = -1;
     container.zIndex = LAYER_CONFIG.PROJECTILE;
@@ -116,22 +198,11 @@ export function projectile() {
       height - groundHeight - romeoOffsetY - romeoHeight * 0.75,
     );
 
-    const { x, y } = globalPostion(0, 0);
-    INSTANCES.logics.positions.static.updateObjectPosition(
-      "projectile",
-      {
-        lEdge: x - 10,
-        rEdge: x + 10,
-        tEdge: y - 10,
-        bEdge: y + 10,
-      }
-    );
-
     const { registerThrow } = INSTANCES.logics.throwProjectile.static;
     Object.keys(projectiles).forEach(id => {
       registerThrow(id, () => {
-        if (thrownData) return;
-        throwProjectile();
+        console.log("Request to throw projectile:", id);
+        throwProjectile(id);
       });
     });
 
@@ -139,79 +210,9 @@ export function projectile() {
   }
 
   function update(_: Ticker) {
-    if (!thrownData) return;
-
-    const { start, angle, power, time, timing } = thrownData;
-    const {
-      trajectoryPath: {
-        static: { trajectoryCurry },
-      },
-      positions: {
-        static: {
-          updateObjectPosition,
-          checkCollision,
-        },
-      },
-      level: {
-        static: { triggerLevelUp },
-      }
-    } = INSTANCES.logics;
-
-    const throwFn = trajectoryCurry(
-      power, angle
-    )
-
-    const t = (Date.now() - start) / time;
-    const interpolatedX = timing(t) * 1 * width;
-    const interpolatedY = throwFn(interpolatedX);
-    
-    projectileObject?.position.set(
-      interpolatedX,
-      interpolatedY
-    );
-
-    const { x, y } = globalPostion(
-      interpolatedX,
-      interpolatedY,
-    );
-
-    updateObjectPosition(
-      "projectile",
-      {
-        lEdge: x - 10,
-        rEdge: x + 10,
-        tEdge: y - 10,
-        bEdge: y + 10,
-      }
-    );
-
-    const collidedObjectId = checkCollision("projectile");
-    if (collidedObjectId === "juliet")
-      triggerLevelUp();
-
-    const resetFactor = [
-      !!collidedObjectId,
-      interpolatedY < 0,
-      t > 1,
-    ];
-
-    if (resetFactor.some(factor => factor)) {
-      thrownData = null;
-      projectileObject?.position.set(0, 0);
-      const { x, y } = globalPostion(0, 0);
-      updateObjectPosition(
-        "projectile",
-        {
-          lEdge: x - 10,
-          rEdge: x + 10,
-          tEdge: y - 10,
-          bEdge: y + 10,
-        }
-      );
-      return;
-    }
-
-    return;
+    Object.keys(thrownData).forEach(projectileId => {
+      projectileUpdate(projectileId);
+    });
   }
 
   return {

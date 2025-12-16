@@ -100,10 +100,24 @@ export function positions() {
     return null;
   }
 
+  function removeObject(objectId: string) {
+    const regs = objData[objectId]?.regions || [];
+
+    for (const region of regs) {
+      delete regions[region][objectId];
+      if (Object.keys(regions[region]).length === 0) {
+        delete regions[region];
+      }
+    }
+
+    delete objData[objectId];
+  }
+
   return {
     static: {
       updateObjectPosition,
       checkCollision,
+      removeObject,
     },
   };
 }
