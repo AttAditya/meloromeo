@@ -21,19 +21,24 @@ export function world() {
       textureSpace: "local",
     });
     background.alpha = 0.6;
+    background.scale.set(1.5, 1.5);
+    background.position.set(
+      -WINDOW_CONFIG.width * 0.25,
+      0
+    );
 
     return background;
   }
 
   function container() {
+    const world = new Container();
     const container = new Container();
     container.label = "world";
     
     if (initialized) return container;
     initialized = true;
-
+    
     const entities = INSTANCES.entities as EntityInstances;
-    container.addChild(background());
 
     Object.values(entities).forEach(entity => {
       const entityContainer = entity.container();
@@ -61,7 +66,10 @@ export function world() {
       container.scale.set(zoom, zoom);
     });
 
-    return container;
+    world.addChild(background());
+    world.addChild(container);
+
+    return world;
   }
 
   function update(ticker: Ticker) {

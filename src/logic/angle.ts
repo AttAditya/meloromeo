@@ -2,7 +2,7 @@ import type { Ticker } from "pixi.js";
 import { INSTANCES } from "@instances";
 
 export function angle() {
-  const upperLimit: number = 89;
+  const upperLimit: number = 85;
   const lowerLimit: number = 0.1;
   const deltaAngle: number = 0.01;
   
