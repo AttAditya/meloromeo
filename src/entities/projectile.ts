@@ -78,7 +78,7 @@ export function projectile() {
     
     const projectileGraphic = projectiles[rawProjectileId]();
     let projectileId = "projectile_";
-    projectileId += projectileGraphic;
+    projectileId += rawProjectileId;
     projectileId += projectileIdGen++;
   
     projectilesContainer?.addChild(projectileGraphic);
@@ -200,10 +200,7 @@ export function projectile() {
 
     const { registerThrow } = INSTANCES.logics.throwProjectile.static;
     Object.keys(projectiles).forEach(id => {
-      registerThrow(id, () => {
-        console.log("Request to throw projectile:", id);
-        throwProjectile(id);
-      });
+      registerThrow(id, () => throwProjectile(id));
     });
 
     return container;
