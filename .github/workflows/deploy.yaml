@@ -23,11 +23,11 @@ jobs:
         run: |
           mkdir all
           mv * ./all/ &
+          sleep 2
           mv all/dist ./
           rm -rf all .github .gitignore
           mv dist/* ./
           rmdir dist
-          ls -la
       - name: Push dist to dist branch
         run: |
           git config --global user.name 'Meloromeo Bot'
