@@ -24,6 +24,13 @@ export function angle() {
     
     const sign = (angle >= getAngle()) ? 1 : -1;
     currentAngle += deltaAngle * ticker.deltaMS * sign;
+    currentAngle = Math.max(
+      lowerLimit,
+      Math.min(
+        upperLimit,
+        currentAngle
+      )
+    );
   }
 
   return {
