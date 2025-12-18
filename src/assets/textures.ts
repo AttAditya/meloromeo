@@ -14,13 +14,13 @@ export function textures() {
     }
   }
 
-  function getTexture(name: string) {
+  function get(name: string) {
     return preloads[name];
   }
 
   return {
     init,
-    getTexture,
+    get,
   };
 }
 

@@ -5,7 +5,7 @@ import { button } from "@ui/button";
 
 import { WINDOW_CONFIG } from "@config/window";
 
-export function game() {
+export function controls() {
   function container() {
     const { throwById } = INSTANCES.logics.throwProjectile.static;
 
@@ -16,7 +16,7 @@ export function game() {
     stoneIcon.circle(0, 0, 30);
     stoneIcon.pivot.set(0, 0);
     stoneIcon.fill({
-      texture: INSTANCES.assets.textures.getTexture("stone"),
+      texture: INSTANCES.assets.textures.get("stone"),
       textureSpace: "local",
     });
 
@@ -24,7 +24,7 @@ export function game() {
     flowerIcon.circle(0, 0, 30);
     flowerIcon.pivot.set(0, 0);
     flowerIcon.fill({
-      texture: INSTANCES.assets.textures.getTexture("flower"),
+      texture: INSTANCES.assets.textures.get("flower"),
       textureSpace: "local",
     });
 

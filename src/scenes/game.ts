@@ -5,7 +5,7 @@ import { WINDOW_CONFIG } from "@config/window";
 
 let initialized = false;
 
-export function world() {
+export function game() {
   const updateCallbacks: ((ticker: Ticker) => void)[] = [];
 
   function background() {
@@ -17,7 +17,7 @@ export function world() {
     );
 
     background.fill({
-      texture: INSTANCES.assets.textures.getTexture("background"),
+      texture: INSTANCES.assets.textures.get("background"),
       textureSpace: "local",
     });
     background.alpha = 0.6;
@@ -39,6 +39,7 @@ export function world() {
     initialized = true;
     
     const entities = INSTANCES.entities as EntityInstances;
+    const controls = INSTANCES.ui.controls;
 
     Object.values(entities).forEach(entity => {
       const entityContainer = entity.container();
@@ -72,6 +73,7 @@ export function world() {
 
     world.addChild(background());
     world.addChild(container);
+    world.addChild(controls.container());
 
     return world;
   }

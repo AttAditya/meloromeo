@@ -18,9 +18,9 @@ import { bird } from "@entities/bird";
 import { projectile } from "@entities/projectile";
 import { juliet } from "@entities/juliet";
 import { balconies } from "@entities/balconies";
-import { world } from "@entities/world";
 
-import { game } from "@ui/game";
+import { game } from "@scenes/game";
+import { controls } from "@ui/controls";
 
 export const INSTANCES = {
   assets: {
@@ -45,9 +45,11 @@ export const INSTANCES = {
     trajectory: trajectory(),
     projectile: projectile(),
     juliet: juliet(),
-    world: world(),
   },
   ui: {
+    controls: controls(),
+  },
+  scenes: {
     game: game(),
   },
 };
@@ -55,7 +57,7 @@ export const INSTANCES = {
 export interface AssetInstances {
   textures: {
     init: () => Promise<void>;
-    getTexture: (key: string) => Texture;
+    get: (key: string) => Texture;
   };
 }
 
@@ -84,7 +86,13 @@ export interface EntityInstances {
 export interface UIInstances {
   [key: string]: {
     container: () => Container;
-    update?: (ticker: Ticker) => void;
+  };
+}
+
+export interface SceneInstances {
+  [key: string]: {
+    container: () => Container;
+    update: (ticker: Ticker) => void;
   };
 }
 
@@ -94,5 +102,6 @@ export interface GenericInstances {
   logics: LogicInstances,
   entities: EntityInstances,
   ui: UIInstances,
+  scenes: SceneInstances,
 }
 

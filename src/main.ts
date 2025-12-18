@@ -17,7 +17,12 @@ async function setup(): Promise<Application> {
 
 async function main() {
   const app = await setup();
-  const { assets, inputs, logics, ui } = INSTANCES as GenericInstances;
+  const {
+    assets,
+    inputs,
+    logics,
+    scenes,
+  } = INSTANCES as GenericInstances;
 
   await assets.textures.init();
 
@@ -37,11 +42,9 @@ async function main() {
       app.ticker.add(logic.update);
   }
 
-  const world = INSTANCES.entities.world;
-  app.stage.addChild(world.container());
-  app.ticker.add(world.update);
-
-  app.stage.addChild(ui.game.container());
+  const game = scenes.game;
+  app.stage.addChild(game.container());
+  app.ticker.add(game.update!);
 }
 
 main();

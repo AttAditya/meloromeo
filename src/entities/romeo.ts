@@ -18,7 +18,7 @@ export function romeo() {
       shape.height
     );
     body.fill({
-      texture: INSTANCES.assets.textures.getTexture("romeo"),
+      texture: INSTANCES.assets.textures.get("romeo"),
     });
     
     return body;

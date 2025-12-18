@@ -69,7 +69,7 @@ export function juliet() {
     );
 
     body.fill({
-      texture: INSTANCES.assets.textures.getTexture("juliet"),
+      texture: INSTANCES.assets.textures.get("juliet"),
       textureSpace: "local",
     });
     

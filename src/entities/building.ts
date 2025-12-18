@@ -23,7 +23,7 @@ export function building() {
     );
 
     floor.fill({
-      texture: INSTANCES.assets.textures.getTexture("floor"),
+      texture: INSTANCES.assets.textures.get("floor"),
       textureSpace: "local",
     });
 

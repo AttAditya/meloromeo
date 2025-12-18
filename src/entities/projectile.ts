@@ -158,7 +158,7 @@ export function projectile() {
   function flower() {
     const graphics = new Graphics().rect(15, -30, 30, 30);
     graphics.fill({
-      texture: INSTANCES.assets.textures.getTexture("flower"),
+      texture: INSTANCES.assets.textures.get("flower"),
       textureSpace: "local",
     });
     graphics.scale.set(1, -1);
@@ -169,7 +169,7 @@ export function projectile() {
   function stone() {
     const graphics = new Graphics().circle(10, 0, 10);
     graphics.fill({
-      texture: INSTANCES.assets.textures.getTexture("stone"),
+      texture: INSTANCES.assets.textures.get("stone"),
       textureSpace: "local",
     });
 

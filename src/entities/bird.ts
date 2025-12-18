@@ -23,7 +23,7 @@ export function bird() {
   }
 
   function bird() {
-    const texture = INSTANCES.assets.textures.getTexture("birdFlap1");
+    const texture = INSTANCES.assets.textures.get("birdFlap1");
 
     const bird = new Sprite(texture);
     bird.width = 30;
@@ -105,7 +105,7 @@ export function bird() {
       bird.pos.y += bird.delta.y * ticker.deltaMS;
 
       bird.graphic.position.set(bird.pos.x, bird.pos.y);
-      bird.graphic.texture = INSTANCES.assets.textures.getTexture(
+      bird.graphic.texture = INSTANCES.assets.textures.get(
         Date.now() % 500 < 250 ? "birdFlap1" : "birdFlap2"
       );
 

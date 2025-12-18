@@ -43,7 +43,7 @@ export function balconies() {
     
     balcony.zIndex = LAYER_CONFIG.BALCONY;
     balcony.fill({
-      texture: INSTANCES.assets.textures.getTexture("balcony"),
+      texture: INSTANCES.assets.textures.get("balcony"),
       textureSpace: "local",
     });
     
