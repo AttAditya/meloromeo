@@ -7,11 +7,13 @@ import { WINDOW_CONFIG } from "@config/window";
 
 export function bird() {
   const birds: {
-    label: string,
-    pos: { x: number, y: number },
-    dX: number,
-    graphic: Sprite,
-  }[] = [];
+    [birdId: string]: {
+      label: string,
+      pos: { x: number, y: number },
+      delta: { x: number, y: number },
+      graphic: Sprite,
+      }
+  } = {};
 
   function globalPostion(x: number, y: number) {
     return {
@@ -36,6 +38,19 @@ export function bird() {
     return bird;
   }
 
+  function fall(birdId: string) {
+    const bird = birds[birdId];
+    
+    bird.delta.x = 0;
+    bird.delta.y = 0.15;
+    bird.graphic.rotation = Math.PI / 2;
+    
+    INSTANCES.logics.triggers.static.remove(
+      `collide-${bird.label}`,
+      `collide-${bird.label}`
+    );
+  }
+
   function container() {
     const container = new Container();
     container.label = "birds";
@@ -43,7 +58,6 @@ export function bird() {
     for (let i = 0; i < BIRD_CONFIG.count; i++) {
       const posX = Math.random() * WINDOW_CONFIG.width;
       const posY = Math.random() * (WINDOW_CONFIG.height / 2);
-      const dX = 0.06;
 
       const graphic = bird();
       const birdLabel = `bird_${i}`;
@@ -59,11 +73,18 @@ export function bird() {
         },
       )
 
-      birds.push({
+      INSTANCES.logics.triggers.static.register(
+        `collide-${birdLabel}`,
+        `collide-${birdLabel}`,
+        () => fall(birdLabel)
+      );
+
+      birds[birdLabel] = {
         label: birdLabel,
-        pos: { x: posX, y: posY }, dX,
+        pos: { x: posX, y: posY },
+        delta: { x: 0.06, y: 0 },
         graphic,
-      });
+      };
     }
 
     container.zIndex = LAYER_CONFIG.BIRD;
@@ -71,22 +92,33 @@ export function bird() {
   }
 
   function update(ticker: Ticker) {
-    birds.forEach(bird => {
-      if (bird.pos.x > WINDOW_CONFIG.width + 50 || bird.pos.x < -50)
-        bird.dX = -bird.dX;
+    const destroyedBirds: string[] = [];
+    const {
+      logics: { positions: { static: {
+        updateObjectPosition,
+        removeObject,
+      } } }
+    } = INSTANCES;
 
-      bird.pos.x += bird.dX * ticker.deltaMS;
+    Object.values(birds).forEach(bird => {
+      if (bird.delta.y) bird.delta.y += 0.002 * ticker.deltaMS;
+      if (bird.pos.x > WINDOW_CONFIG.width + 50 || bird.pos.x < -50)
+        bird.delta.x *= -1;
+
+      bird.pos.x += bird.delta.x * ticker.deltaMS;
+      bird.pos.y += bird.delta.y * ticker.deltaMS;
+
       bird.graphic.position.set(bird.pos.x, bird.pos.y);
       bird.graphic.texture = INSTANCES.assets.textures.getTexture(
         Date.now() % 500 < 250 ? "birdFlap1" : "birdFlap2"
       );
 
-      bird.graphic.scale.x = bird.dX > 0 ? -1 : 1;
+      bird.graphic.scale.x = -(bird.delta.x > 0);
       bird.graphic.width = 30;
       bird.graphic.height = 30;
 
       const { x, y } = globalPostion(bird.pos.x, bird.pos.y);
-      INSTANCES.logics.positions.static.updateObjectPosition(
+      updateObjectPosition(
         bird.label,
         {
           lEdge: x - 10,
@@ -95,6 +127,15 @@ export function bird() {
           bEdge: y + 10,
         },
       )
+
+      if (bird.pos.y > WINDOW_CONFIG.height + 50)
+        destroyedBirds.push(bird.label);
+    });
+
+    destroyedBirds.forEach(birdId => {
+      birds[birdId].graphic.destroy();
+      removeObject(birdId);
+      delete birds[birdId];
     });
   }
 

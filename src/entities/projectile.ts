@@ -101,8 +101,8 @@ export function projectile() {
           checkCollision,
         },
       },
-      level: {
-        static: { triggerLevelUp },
+      triggers: {
+        static: { trigger },
       }
     } = INSTANCES.logics;
 
@@ -135,10 +135,8 @@ export function projectile() {
     );
 
     const collidedObjectId = checkCollision(projectileId);
-    if (
-      collidedObjectId === "juliet" &&
-      projectileId.includes("flower")
-    ) triggerLevelUp();
+    if (collidedObjectId)
+      trigger(`collide-${collidedObjectId}`);
 
     const resetFactor = [
       !!collidedObjectId,

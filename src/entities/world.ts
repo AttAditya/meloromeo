@@ -61,10 +61,14 @@ export function world() {
     container.pivot.set(width / 2, height / 2);
     container.position.set(width / 2, height / 2);
 
-    INSTANCES.logics.level.static.onLevelUp(() => {
-      zoom -= dZoom;
-      container.scale.set(zoom, zoom);
-    });
+    INSTANCES.logics.triggers.static.register(
+      "level-up",
+      "zoom-out-world",
+        () => {
+        zoom -= dZoom;
+        container.scale.set(zoom, zoom);
+      }
+    );
 
     world.addChild(background());
     world.addChild(container);

@@ -7,7 +7,7 @@ import { microphone } from "@inputs/microphone";
 import { angle } from "@logic/angle";
 import { trajectoryPath } from "@logic/trajectoryPath";
 import { positions } from "@logic/positions";
-import { level } from "@logic/level";
+import { triggers } from "@logic/triggers";
 import { throwProjectile } from "@logic/throwProjectile";
 
 import { building } from "@entities/building";
@@ -33,7 +33,7 @@ export const INSTANCES = {
     angle: angle(),
     trajectoryPath: trajectoryPath(),
     positions: positions(),
-    level: level(),
+    triggers: triggers(),
     throwProjectile: throwProjectile(),
   },
   entities: {

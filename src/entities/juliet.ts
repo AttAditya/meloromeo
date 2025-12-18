@@ -9,6 +9,7 @@ import { BALCONY_CONFIG } from "@config/balcony";
 
 export function juliet() {
   const position = { x: 0, y: 0 };
+  let julietContainer: Container | null = null;
 
   function globalPostion(x: number, y: number) {
     const { x: offX, y: offY } = JULIET_CONFIG.offset;
@@ -75,11 +76,39 @@ export function juliet() {
     return body;
   }
 
+  function checkCollision() {
+    const {
+      positions: { static: { checkCollision } },
+      triggers: { static: { trigger } },
+    } = INSTANCES.logics;
+    
+    const collisionId = checkCollision("juliet");
+    
+    if (collisionId?.includes("flower")) {
+      trigger("level-up");
+      return;
+    }
+  }
+
+  function levelUp() {
+    const { x: offX, y: offY } = JULIET_CONFIG.offset;
+    const { width: winW, height: winH } = WINDOW_CONFIG;
+    const { groundHeight } = GAME_CONFIG;
+
+    JULIET_CONFIG.floor += 1;
+    reposition(JULIET_CONFIG.floor);
+    julietContainer?.position.set(
+      offX - position.x + winW,
+      offY - position.y + winH - groundHeight,
+    );
+  }
+
   function container() {
     const container = new Container();
     container.label = "juliet";
+    julietContainer = container;
+    
     container.addChild(juliet());
-
     reposition(JULIET_CONFIG.floor);
 
     const { x: posX, y: posY } = position;
@@ -93,14 +122,9 @@ export function juliet() {
       offY - posY + winH - groundHeight,
     )
 
-    INSTANCES.logics.level.static.onLevelUp(() => {
-      JULIET_CONFIG.floor += 1;
-      reposition(JULIET_CONFIG.floor);
-      container.position.set(
-        offX - position.x + winW,
-        offY - position.y + winH - groundHeight,
-      );
-    });
+    const { register } = INSTANCES.logics.triggers.static;
+    register("collide-juliet", "collide-juliet", checkCollision);
+    register("level-up", "reposition-juliet", levelUp);
 
     return container;
   }
