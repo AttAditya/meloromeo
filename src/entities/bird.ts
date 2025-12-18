@@ -62,10 +62,10 @@ export function bird() {
       INSTANCES.logics.positions.static.updateObjectPosition(
         birdLabel,
         {
-          lEdge: posX - 10,
-          rEdge: posX + 10,
-          tEdge: posY - 10,
-          bEdge: posY + 10,
+          lEdge: posX - 20,
+          rEdge: posX + 20,
+          tEdge: posY - 20,
+          bEdge: posY + 20,
         },
       )
 
@@ -117,10 +117,10 @@ export function bird() {
       updateObjectPosition(
         bird.label,
         {
-          lEdge: x - 10,
-          rEdge: x + 10,
-          tEdge: y - 10,
-          bEdge: y + 10,
+          lEdge: x - 20,
+          rEdge: x + 20,
+          tEdge: y - 20,
+          bEdge: y + 20,
         },
       )
 
