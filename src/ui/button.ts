@@ -1,4 +1,4 @@
-import { ColorMatrixFilter, Container, Graphics } from "pixi.js";
+import { Container, Graphics } from "pixi.js";
 
 export function button(
   innerContent: Container,
@@ -33,15 +33,11 @@ export function button(
 
   const button = new Container();
   const buttonBg = new Container();
-
-  const cmf = new ColorMatrixFilter();
-  cmf.brightness(0.75, false);
   
   const buttonBgDepth = new Graphics();
   buttonBgDepth.roundRect(0, 20, width, height, roundness);
-  buttonBgDepth.fill(color);
+  buttonBgDepth.fill(color - 0x222222);
   buttonBgDepth.stroke({ color: 0x000000, width: 2 });
-  buttonBgDepth.filters = [cmf];
   
   const buttonBgColor = new Graphics();
   buttonBgColor.roundRect(0, 0, width, height, roundness);
