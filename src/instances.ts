@@ -21,6 +21,7 @@ import { balconies } from "@entities/balconies";
 
 import { game } from "@scenes/game";
 import { controls } from "@ui/controls";
+import { menu } from "@scenes/menu";
 
 export const INSTANCES = {
   assets: {
@@ -50,6 +51,7 @@ export const INSTANCES = {
     controls: controls(),
   },
   scenes: {
+    menu: menu(),
     game: game(),
   },
 };

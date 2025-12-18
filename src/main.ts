@@ -42,9 +42,9 @@ async function main() {
       app.ticker.add(logic.update);
   }
 
-  const game = scenes.game;
-  app.stage.addChild(game.container());
-  app.ticker.add(game.update!);
+  const scene = scenes.game;
+  app.stage.addChild(scene.container());
+  app.ticker.add(scene.update!);
 }
 
 main();
