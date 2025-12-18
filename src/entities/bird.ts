@@ -1,4 +1,4 @@
-import { ColorMatrixFilter, Container, Sprite, Ticker } from "pixi.js";
+import { Container, Sprite, Ticker } from "pixi.js";
 import { INSTANCES } from "@instances";
 
 import { BIRD_CONFIG } from "@config/bird";
@@ -30,10 +30,6 @@ export function bird() {
     bird.height = 30;
     bird.anchor.set(0.5);
     bird.position.set(0, 0);
-
-    const cmf = new ColorMatrixFilter();
-    cmf.brightness(1.2, false);
-    bird.filters = [cmf];
 
     return bird;
   }
