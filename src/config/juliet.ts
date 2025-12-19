@@ -9,6 +9,6 @@ export const JULIET_CONFIG = {
   },
   floor: 1,
   initialFloor: 1,
-  maxFloors: 2,
+  maxFloors: 7,
 };
 
