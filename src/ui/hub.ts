@@ -27,6 +27,31 @@ export function hub() {
         },
         position: {
           posX: 20,
+          posY: WINDOW_CONFIG.height - 160,
+        },
+        anchor: {
+          anchorX: 0,
+          anchorY: 1,
+        },
+      },
+    );
+
+    const settingsContent = new Container();
+    settingsContent.addChild(text("Settings", { x: 0, y: -5 }));
+    settingsContent.scale.set(0.75, 0.75);
+
+    const openSettings = button(
+      settingsContent,
+      0xDDDDDD,
+      () => {},
+      {
+        styles: {
+          width: WINDOW_CONFIG.width - 40,
+          height: 60,
+          roundness: 10,
+        },
+        position: {
+          posX: 20,
           posY: WINDOW_CONFIG.height - 60,
         },
         anchor: {
@@ -34,9 +59,10 @@ export function hub() {
           anchorY: 1,
         },
       },
-    )
+    );
     
     container.addChild(playGame);
+    container.addChild(openSettings);
 
     return container;
   }
