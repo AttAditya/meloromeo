@@ -24,10 +24,12 @@ async function main() {
     scenes,
   } = INSTANCES as GenericInstances;
 
-  await assets.textures.init();
-
   const inputList = Object.values(inputs);
+  const assetList = Object.values(assets);
   const logicList = Object.values(logics);
+
+  for (const asset of assetList)
+    await asset.init();
 
   for (const input of inputList) {
     if (input.init)
@@ -37,10 +39,9 @@ async function main() {
       app.ticker.add(input.update);
   }
 
-  for (const logic of logicList) {
+  for (const logic of logicList)
     if (logic.update)
       app.ticker.add(logic.update);
-  }
 
   const scene = scenes.game;
   app.stage.addChild(scene.container());

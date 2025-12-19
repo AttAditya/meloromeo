@@ -1,5 +1,7 @@
 import { Container, Graphics, Ticker } from "pixi.js";
-import { INSTANCES, type EntityInstances } from "@instances";
+import { INSTANCES } from "@instances";
+
+import { text } from "@ui/text";
 
 import { WINDOW_CONFIG } from "@config/window";
 
@@ -31,17 +33,28 @@ export function menu() {
   function container() {
     const world = new Container();
     const container = new Container();
-    container.label = "world";
+    const hub = INSTANCES.ui.hub;
     
-    const entities = INSTANCES.entities as EntityInstances;
+    container.label = "world";
 
-    Object.values(entities).forEach(entity => {
-      container.addChild(entity.container());
-      if (entity.update)
-        updateCallbacks.push(entity.update);
+    const title = text("Meloromeo", {
+      x: WINDOW_CONFIG.width / 2,
+      y: 100,
     });
 
+    const subtitle = text(
+      "Sing the melody of love",
+      {
+        x: WINDOW_CONFIG.width / 2,
+        y: 140,
+      },
+      20, 4,
+    );
+
     world.addChild(background());
+    world.addChild(hub.container());
+    world.addChild(title);
+    world.addChild(subtitle);
 
     return world;
   }

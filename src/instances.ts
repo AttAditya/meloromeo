@@ -22,10 +22,13 @@ import { balconies } from "@entities/balconies";
 import { game } from "@scenes/game";
 import { controls } from "@ui/controls";
 import { menu } from "@scenes/menu";
+import { hub } from "@ui/hub";
+import { fonts } from "@assets/fonts";
 
 export const INSTANCES = {
   assets: {
     textures: textures(),
+    fonts: fonts(),
   },
   inputs: {
     microphone: microphone(),
@@ -49,6 +52,7 @@ export const INSTANCES = {
   },
   ui: {
     controls: controls(),
+    hub: hub(),
   },
   scenes: {
     menu: menu(),

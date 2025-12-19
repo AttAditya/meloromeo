@@ -1,5 +1,5 @@
 import { Assets, Texture } from "pixi.js";
-import { ASSET_REGISTRY } from "@assets/assetRegistry";
+import { TEXTURE_REGISTRY } from "@assets/textures/registry";
 
 export function textures() {
   const preloads: {
@@ -7,9 +7,9 @@ export function textures() {
   } = {};
 
   async function init() {
-    for (const asset in ASSET_REGISTRY) {
+    for (const asset in TEXTURE_REGISTRY) {
       preloads[asset] = await Assets.load(
-        ASSET_REGISTRY[asset],
+        TEXTURE_REGISTRY[asset],
       );
     }
   }
