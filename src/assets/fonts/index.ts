@@ -12,7 +12,6 @@ export function fonts() {
         src: FONT_REGISTRY[asset],
       });
     }
-
   }
   
   function get(name: string) {

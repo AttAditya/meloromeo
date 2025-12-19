@@ -1,6 +1,8 @@
-import type { Container, Texture, Ticker } from "pixi.js";
+import type { Container, Ticker } from "pixi.js";
 
 import { textures } from "@assets/textures";
+import { fonts } from "@assets/fonts";
+import { music } from "@assets/music";
 
 import { microphone } from "@inputs/microphone";
 
@@ -23,12 +25,12 @@ import { game } from "@scenes/game";
 import { controls } from "@ui/controls";
 import { menu } from "@scenes/menu";
 import { hub } from "@ui/hub";
-import { fonts } from "@assets/fonts";
 
 export const INSTANCES = {
   assets: {
     textures: textures(),
     fonts: fonts(),
+    music: music(),
   },
   inputs: {
     microphone: microphone(),
@@ -61,9 +63,9 @@ export const INSTANCES = {
 };
 
 export interface AssetInstances {
-  textures: {
+  [key: string]: {
     init: () => Promise<void>;
-    get: (key: string) => Texture;
+    get: (key: string) => any;
   };
 }
 
