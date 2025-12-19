@@ -6,8 +6,9 @@ export default defineConfig({
   base: "./",
   resolve: {
     alias: {
-      "@assets": "/src/assets",
       "@instances": "/src/core/instances",
+      "@flow": "/src/core/flow",
+      "@assets": "/src/assets",
       "@config": "/src/config",
       "@entities": "/src/entities",
       "@logic": "/src/logic",

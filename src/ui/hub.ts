@@ -1,4 +1,5 @@
 import { Container } from "pixi.js";
+import { startScene } from "@flow";
 
 import { button } from "@ui/button";
 import { text } from "@ui/text";
@@ -17,7 +18,7 @@ export function hub() {
     const playGame = button(
       playContent,
       0xDDDDDD,
-      () => {},
+      () => startScene("game"),
       {
         styles: {
           width: WINDOW_CONFIG.width - 40,
