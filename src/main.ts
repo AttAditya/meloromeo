@@ -19,22 +19,13 @@ async function setup(): Promise<Application> {
 
 async function main() {
   const app = await setup();
-  const { assets, inputs, logics } = INSTANCES as GenericInstances;
+  const { assets, logics } = INSTANCES as GenericInstances;
 
-  const inputList = Object.values(inputs);
   const assetList = Object.values(assets);
   const logicList = Object.values(logics);
 
   for (const asset of assetList)
     await asset.init();
-
-  for (const input of inputList) {
-    if (input.init)
-      await input.init();
-
-    if (input.update)
-      app.ticker.add(input.update);
-  }
 
   for (const logic of logicList)
     if (logic.update)

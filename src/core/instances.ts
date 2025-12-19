@@ -72,6 +72,7 @@ export interface InputInstances {
     static?: { [key: string]: (...args: any[]) => any };
     update?: (ticker: Ticker) => void;
     init?: () => Promise<void>;
+    finish?: () => Promise<void>;
   };
 }
 
@@ -97,8 +98,10 @@ export interface UIInstances {
 
 export interface SceneInstances {
   [key: string]: {
+    init: () => Promise<void>;
     container: () => Container;
     update: (ticker: Ticker) => void;
+    finish: () => Promise<void>;
   };
 }
 

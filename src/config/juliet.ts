@@ -8,5 +8,7 @@ export const JULIET_CONFIG = {
     y: -70,
   },
   floor: 1,
+  initialFloor: 1,
+  maxFloors: 2,
 };
 

@@ -1,5 +1,6 @@
 import { Container, Graphics } from "pixi.js";
 import { INSTANCES } from "@instances";
+import { startScene } from "@flow";
 
 import { JULIET_CONFIG } from "@config/juliet";
 import { WINDOW_CONFIG } from "@config/window";
@@ -101,6 +102,11 @@ export function juliet() {
       offX - position.x + winW,
       offY - position.y + winH - groundHeight,
     );
+
+    if (JULIET_CONFIG.floor >= JULIET_CONFIG.maxFloors) {
+      JULIET_CONFIG.floor = JULIET_CONFIG.initialFloor;
+      startScene("menu");
+    }
   }
 
   function container() {

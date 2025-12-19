@@ -9,6 +9,7 @@ interface Note {
 export function microphone() {
   const ctx = new AudioContext();
 
+  let stream: MediaStream | null = null;
   let analyser: AnalyserNode | null = null;
   let dataArray: Float32Array;
   let lastFreq: number | null = null;
@@ -24,7 +25,6 @@ export function microphone() {
 
   async function init() {
     const mediaDevices = navigator.mediaDevices;
-    let stream = null;
     try {
       stream = await mediaDevices.getUserMedia({ audio: true });
     } catch (e) {
@@ -61,6 +61,17 @@ export function microphone() {
     
     if (notesQueue.length > notesQueueCapacity)
       notesQueue.shift();
+  }
+
+  async function finish() {
+    stream?.getTracks().forEach(track => track.stop());
+    
+    stream = null;
+    analyser = null;
+    lastFreq = null;
+
+    while (notesQueue.length)
+      notesQueue.pop();
   }
 
   function detectFreq(buffer: Float32Array, sampleRate: number) {
@@ -149,6 +160,7 @@ export function microphone() {
   return {
     init,
     update,
+    finish,
     static: {
       getVolume,
       getNote,

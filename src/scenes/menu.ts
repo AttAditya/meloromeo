@@ -30,6 +30,8 @@ export function menu() {
     return background;
   }
 
+  async function init() {}
+
   function container() {
     const world = new Container();
     const container = new Container();
@@ -63,9 +65,13 @@ export function menu() {
     updateCallbacks.forEach(callback => callback(ticker));
   }
 
+  async function finish() {}
+
   return {
+    init,
     container,
     update,
+    finish,
   };
 }
 

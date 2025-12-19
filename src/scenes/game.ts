@@ -7,6 +7,7 @@ let initialized = false;
 
 export function game() {
   const updateCallbacks: ((ticker: Ticker) => void)[] = [];
+  const inputUpdates: ((ticker: Ticker) => void)[] = [];
 
   function background() {
     const background = new Graphics();
@@ -28,6 +29,11 @@ export function game() {
     );
 
     return background;
+  }
+
+  async function init() {
+    await INSTANCES.inputs.microphone.init();
+    inputUpdates.push(INSTANCES.inputs.microphone.update);
   }
 
   function container() {
@@ -74,11 +80,18 @@ export function game() {
 
   function update(ticker: Ticker) {
     updateCallbacks.forEach(callback => callback(ticker));
+    inputUpdates.forEach(callback => callback(ticker));
+  }
+
+  async function finish() {
+    await INSTANCES.inputs.microphone.finish();
   }
 
   return {
+    init,
     container,
     update,
+    finish,
   };
 }
 
