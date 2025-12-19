@@ -8,9 +8,9 @@ export function fonts() {
 
   async function init() {
     for (const asset in FONT_REGISTRY) {
-      preloads[asset] = await Assets.load({
-        src: FONT_REGISTRY[asset],
-      });
+      const fontName = asset;
+      Assets.add({ alias: fontName, src: FONT_REGISTRY[asset] });
+      preloads[asset] = await Assets.load(fontName) as BitmapFont;
     }
   }
   
