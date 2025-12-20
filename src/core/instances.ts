@@ -21,10 +21,11 @@ import { projectile } from "@entities/projectile";
 import { juliet } from "@entities/juliet";
 import { balconies } from "@entities/balconies";
 
-import { game } from "@scenes/game";
 import { controls } from "@ui/controls";
-import { menu } from "@scenes/menu";
 import { hub } from "@ui/hub";
+
+import { game } from "@scenes/game";
+import { menu } from "@scenes/menu";
 
 export const INSTANCES = {
   assets: {
