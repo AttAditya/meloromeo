@@ -81,9 +81,7 @@ export function settings() {
     );
     
     const nextIndex = (currentIndex + 1) % availableMicrophones.length;
-    INSTANCES.inputs.microphone.static.switchMicrophone(
-      availableMicrophones[nextIndex].deviceId
-    )
+    INSTANCES.inputs.microphone.static.switchMicrophone()
 
     const micLabel = availableMicrophones[nextIndex].label || "Default";
     const micText = text(
