@@ -89,6 +89,11 @@ export function juliet() {
       trigger("level-up");
       return;
     }
+
+    if (collisionId?.includes("stone")) {
+      trigger("game-over");
+      return;
+    }
   }
 
   function levelUp() {
@@ -105,8 +110,12 @@ export function juliet() {
 
     if (JULIET_CONFIG.floor >= JULIET_CONFIG.maxFloors) {
       JULIET_CONFIG.floor = JULIET_CONFIG.initialFloor;
-      startScene("menu");
+      startScene("win");
     }
+  }
+
+  function gameOver() {
+    startScene("lost");
   }
 
   function container() {
@@ -131,6 +140,7 @@ export function juliet() {
     const { register } = INSTANCES.logics.triggers.static;
     register("collide-juliet", "collide-juliet", checkCollision);
     register("level-up", "reposition-juliet", levelUp);
+    register("game-over", "game-over", gameOver);
 
     return container;
   }

@@ -21,6 +21,7 @@ export function text(
     fontSize,
     fontFamily,
     letterSpacing,
+    align: "center",
     stroke: {
       color: 0x000000,
       width: Math.min(6, 0.15 * fontSize),
@@ -35,6 +36,7 @@ export function text(
     fontSize,
     fontFamily,
     letterSpacing,
+    align: "center",
     stroke: {
       color: 0x000000,
       width: Math.min(2, 2 * fontSize),

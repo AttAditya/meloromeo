@@ -27,6 +27,8 @@ import { hub } from "@ui/hub";
 import { game } from "@scenes/game";
 import { menu } from "@scenes/menu";
 import { settings } from "@scenes/settings";
+import { win } from "@scenes/win";
+import { lost } from "@scenes/lost";
 
 export const INSTANCES = {
   assets: {
@@ -59,6 +61,8 @@ export const INSTANCES = {
     hub: hub(),
   },
   scenes: {
+    win: win(),
+    lost: lost(),
     menu: menu(),
     game: game(),
     settings: settings(),
