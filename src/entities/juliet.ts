@@ -123,6 +123,7 @@ export function juliet() {
     container.label = "juliet";
     julietContainer = container;
     
+    JULIET_CONFIG.floor = JULIET_CONFIG.initialFloor;
     container.addChild(juliet());
     reposition(JULIET_CONFIG.floor);
 

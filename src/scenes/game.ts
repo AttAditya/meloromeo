@@ -3,8 +3,6 @@ import { INSTANCES, type EntityInstances } from "@instances";
 
 import { WINDOW_CONFIG } from "@config/window";
 
-let initialized = false;
-
 export function game() {
   const updateCallbacks: ((ticker: Ticker) => void)[] = [];
   const inputUpdates: ((ticker: Ticker) => void)[] = [];
@@ -40,9 +38,6 @@ export function game() {
     const world = new Container();
     const container = new Container();
     container.label = "world";
-    
-    if (initialized) return container;
-    initialized = true;
     
     const entities = INSTANCES.entities as EntityInstances;
     const controls = INSTANCES.ui.controls;
