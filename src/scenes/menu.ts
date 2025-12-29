@@ -39,13 +39,13 @@ export function menu() {
     
     container.label = "world";
 
-    const title = text("Meloromeo", {
+    const title = text("MELOROMEO", {
       x: WINDOW_CONFIG.width / 2,
       y: 100,
     });
 
     const subtitle = text(
-      "Sing the melody of love",
+      "Sing The Melody Of Love",
       {
         x: WINDOW_CONFIG.width / 2,
         y: 140,

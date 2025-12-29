@@ -17,13 +17,14 @@ async function startScene(name: string) {
   const scene = scenes[name];
 
   if (!scene) return;
-  const container = scene.container();
-
   await scenes[currentSceneName]?.finish();
+  
   flowContainer.removeChildren();
   await scene.init();
-
+  
+  const container = scene.container();
   flowContainer.addChild(container);
+
   updateCallback = scene.update;
   currentSceneName = name;
 }

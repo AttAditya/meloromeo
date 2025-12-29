@@ -43,7 +43,7 @@ export function hub() {
     const openSettings = button(
       settingsContent,
       0xDDDDDD,
-      () => {},
+      () => startScene("settings"),
       {
         styles: {
           width: WINDOW_CONFIG.width - 40,

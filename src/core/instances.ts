@@ -2,7 +2,7 @@ import type { Container, Ticker } from "pixi.js";
 
 import { textures } from "@assets/textures";
 import { fonts } from "@assets/fonts";
-import { music } from "@assets/music";
+import { audio } from "@assets/audio";
 
 import { microphone } from "@inputs/microphone";
 
@@ -26,12 +26,13 @@ import { hub } from "@ui/hub";
 
 import { game } from "@scenes/game";
 import { menu } from "@scenes/menu";
+import { settings } from "@scenes/settings";
 
 export const INSTANCES = {
   assets: {
     textures: textures(),
     fonts: fonts(),
-    music: music(),
+    audio: audio(),
   },
   inputs: {
     microphone: microphone(),
@@ -60,6 +61,7 @@ export const INSTANCES = {
   scenes: {
     menu: menu(),
     game: game(),
+    settings: settings(),
   },
 };
 

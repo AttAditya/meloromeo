@@ -13,6 +13,9 @@ async function setup(): Promise<Application> {
     ...RENDERER_CONFIG,
   });
   
+  for (let i = 1; i < 1000; i++)
+    await document.fonts.load(`${i}px "Luckiest Guy"`);
+
   document.body.appendChild(app.canvas);
   return app;
 }

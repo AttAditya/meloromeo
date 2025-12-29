@@ -15,7 +15,6 @@ export function fonts() {
   }
   
   function get(name: string) {
-    console.log(preloads);
     return preloads[name];
   }
 

@@ -14,6 +14,7 @@ export function microphone() {
   let dataArray: Float32Array;
   let lastFreq: number | null = null;
 
+  let currentMicId: string | null = null;
   let lastTime = 0;
   const INTERVAL = 40;
 
@@ -28,7 +29,11 @@ export function microphone() {
   async function init() {
     const mediaDevices = navigator.mediaDevices;
     try {
-      stream = await mediaDevices.getUserMedia({ audio: true });
+      stream = await mediaDevices.getUserMedia({ 
+        audio: currentMicId
+          ? { deviceId: { exact: currentMicId } }
+          : true 
+      });
     } catch (e) {
       const rnwv = (window as Window & {
         ReactNativeWebView?: {
@@ -182,6 +187,14 @@ export function microphone() {
       : null;
   }
 
+  function getMicId() {
+    return currentMicId;
+  }
+
+  function switchMicrophone(micId: string) {
+    currentMicId = micId;
+  }
+
   function debug(msg: string) {
     (window as any).ReactNativeWebView?.postMessage(JSON.stringify({
       type: "LOG",
@@ -235,6 +248,8 @@ export function microphone() {
     static: {
       getVolume,
       getNote,
+      getMicId,
+      switchMicrophone,
     },
   };
 }
