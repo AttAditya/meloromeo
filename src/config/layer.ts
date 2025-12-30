@@ -1,8 +1,0 @@
-export const LAYER_CONFIG = {
-  JULIET: 2,
-  BALCONY: 3,
-  BIRD: 4,
-  PROJECTILE: 10,
-  TRAJECTORY: 9,
-};
-
