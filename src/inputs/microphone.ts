@@ -129,8 +129,6 @@ export function microphone() {
   function update(ticker: Ticker) {
     if (!nativeMode)
       browserMicUpdate(ticker);
-
-    console.log("Mic volume:", getVolume());
   }
 
   async function finish() {
